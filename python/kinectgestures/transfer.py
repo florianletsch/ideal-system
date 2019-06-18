@@ -103,7 +103,7 @@ def create_model_vgg19(out_shape, config, in_shape=(120, 160, 1)):
     # pre-trained VGG16 feature extraction
     weights = 'imagenet' if config["pretrained"] else None
     base_model = VGG19(weights=weights, include_top=False)
-    plot_model(base_model, to_file='model.png')
+    plot_model(base_model, to_file='model_vgg19.png', show_shapes=True, show_layer_names=True)
     # , input_tensor=input_normalized)
     # x = base_model.output
     features = Model(inputs=input_layer, outputs=base_model(input_normalized))
@@ -145,17 +145,17 @@ def create_model_inception(out_shape, config, in_shape=(120, 160, 1)):
     # learn a normalization, roughly map distributions Kinect data -> RGB
     input_normalized = BatchNormalization()(input_stacked)
 
-    # pre-trained VGG16 feature extraction
+    # pre-trained inception feature extraction
     weights = 'imagenet' if config["pretrained"] else None
     base_model = InceptionResNetV2(weights=weights, include_top=False)
-    plot_model(base_model, to_file='model.png')
+    plot_model(base_model, to_file='model_inception.png', show_shapes=True, show_layer_names=True)
     # , input_tensor=input_normalized)
     # x = base_model.output
     features = Model(inputs=input_layer, outputs=base_model(input_normalized))
     x = features.output
 
     # add MLP on top
-    x = Flatten()(x)
+    #x = Flatten()(x)
     x = Dense(config["num_features"])(x)
     x = Dropout(config["dropout_rate"])(x)
     x = Dense(out_height * out_width)(x)
