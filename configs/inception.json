@@ -5,13 +5,13 @@
         80
     ],
     "in_shape": [
-        120,
-        160,
+        299,
+        299,
         1
     ],
     "preprocessing_scale": [
-        144,
-        192
+        299,
+        299
     ],
     "preprocessing_scale_teacher": [
         60,

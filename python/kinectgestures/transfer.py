@@ -147,7 +147,7 @@ def create_model_inception(out_shape, config, in_shape=(120, 160, 1)):
 
     # pre-trained inception feature extraction
     weights = 'imagenet' if config["pretrained"] else None
-    base_model = InceptionResNetV2(weights=weights, include_top=False, input_shape=(120,160,3))
+    base_model = InceptionResNetV2(weights=weights, include_top=False, input_shape=(299, 299, 3))
     plot_model(base_model, to_file='model_inception.png', show_shapes=True, show_layer_names=True)
     # , input_tensor=input_normalized)
     # x = base_model.output
@@ -157,7 +157,7 @@ def create_model_inception(out_shape, config, in_shape=(120, 160, 1)):
     x = features.output
 
     # add MLP on top
-    #x = Flatten()(x)
+    x = Flatten()(x)
     x = Dense(config["num_features"])(x)
     x = Dropout(config["dropout_rate"])(x)
     x = Dense(out_height * out_width)(x)
